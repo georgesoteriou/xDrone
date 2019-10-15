@@ -1,12 +1,24 @@
-FROM ros:kinetic-robot 
+FROM hilschernetpi/netpi-bluetooth  
 
 #SUDO
 RUN apt-get update && \
-      apt-get -y install sudo
+    apt-get -y install sudo
 
 #RUN useradd -m docker && echo "docker:docker" | chpasswd && adduser docker sudo
 
 #USER docker
+
+#Pyparrot requirements
+RUN apt-get update && \
+	sudo apt-get install -y python && \
+	apt-get install -y python-pip && \
+	apt-get install -y libglib2.0-dev && \
+	pip install bluepy && \
+	pip install untangle && \
+	apt-get install python-bluez;
+
+#Pyparrot
+RUN pip install pyparrot;
 
 #JAVA
 RUN apt-get update && \
