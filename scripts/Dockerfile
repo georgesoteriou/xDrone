@@ -15,6 +15,7 @@ RUN apt-get update && \
 	apt-get install -y libglib2.0-dev && \
 	pip3 install bluepy && \
 	pip3 install untangle && \
+	pip3 install zeroconf && \
 	apt-get install -y bluetooth && \
 	apt-get install -y bluez && \
 	apt-get install -y python-bluez && \
@@ -31,10 +32,13 @@ RUN apt-get update && \
 
 # Fix certificate issues
 RUN apt-get update && \
-	sudo apt-get install -y openjdk-8-jdk && \
+	apt-get install -y openjdk-8-jdk && \
 	apt-get install ca-certificates-java && \
 	apt-get clean && \
 	update-ca-certificates -f;
+
+RUN apt-get update && \
+    sudo apt install -y vim
 
 # Setup JAVA_HOME -- useful for docker commandline
 ENV JAVA_HOME /usr/lib/jvm/java-1.8.0-openjdk-amd64
