@@ -1,4 +1,4 @@
-FROM hilschernetpi/netpi-bluetooth  
+FROM ubuntu
 
 #SUDO
 RUN apt-get update && \
@@ -10,20 +10,19 @@ RUN apt-get update && \
 
 #Pyparrot requirements
 RUN apt-get update && \
-	sudo apt-get install -y python && \
-	apt-get install -y python-pip && \
+	sudo apt-get install -y python3 && \
+	apt-get install -y python3-pip && \
 	apt-get install -y libglib2.0-dev && \
-	pip install bluepy && \
-	pip install untangle && \
-	apt-get install python-bluez;
-
-#Pyparrot
-RUN pip install pyparrot;
+	pip3 install bluepy && \
+	pip3 install untangle && \
+	apt-get install -y bluetooth && \
+	apt-get install -y bluez && \
+	apt-get install -y python-bluez && \
+	pip3 install pyparrot;
 
 #JAVA
 RUN apt-get update && \
 	apt-get install -y git && \
-	apt-get install -y ros-kinetic-ardrone-autonomy && \
 	apt-get install -y ant && \
 	apt-get install -y wget && \
 	apt-get install -y software-properties-common && \
