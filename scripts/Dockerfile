@@ -51,7 +51,6 @@ RUN /tomcat-install-script.sh
 WORKDIR /xdrone
 
 COPY xdrone-deploy.sh /xdrone/xdrone-deploy.sh
-COPY run_ardrone.sh /xdrone/run_ardrone.sh
 RUN ["chmod", "+x", "xdrone-deploy.sh"]
 
 COPY test_drone.py /test_drone.py

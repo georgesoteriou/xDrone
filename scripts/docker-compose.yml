@@ -1,19 +1,8 @@
-version: '2'
+version: '3'
 services:
-  master:
-    image: "xdrone"
-    container_name: master
-    command: roscore
-  ardrone:
-    image: "xdrone"
-    container_name: ardrone
-    environment:
-      - "ROS_HOSTNAME=ardrone"
-      - "ROS_MASTER_URI=http://master:11311"
-    command: /bin/bash /xdrone/run_ardrone.sh
   tomcat:
     image: "xdrone"
-    container_name: tomcat
+    container_name: master
     environment:
       - "ROS_HOSTNAME=tomcat"
       - "ROS_MASTER_URI=http://master:11311"
