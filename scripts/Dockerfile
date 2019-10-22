@@ -54,6 +54,8 @@ COPY xdrone-deploy.sh /xdrone/xdrone-deploy.sh
 COPY run_ardrone.sh /xdrone/run_ardrone.sh
 RUN ["chmod", "+x", "xdrone-deploy.sh"]
 
+COPY test_drone.py /test_drone.py
+
 WORKDIR /opt/tomcat/8_0/webapps
 RUN ["rm", "-rf", "ROOT.war"]
 RUN ["rm", "-rf", "ROOT"]

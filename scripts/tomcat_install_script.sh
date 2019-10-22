@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TOMCAT_URL="https://www-eu.apache.org/dist/tomcat/tomcat-8/v8.5.46/bin/apache-tomcat-8.5.46.tar.gz"
+TOMCAT_URL="https://www-eu.apache.org/dist/tomcat/tomcat-8/v8.5.47/bin/apache-tomcat-8.5.47.tar.gz"
 
 check_java_home() {
     if [ -z ${JAVA_HOME} ]
