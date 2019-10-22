@@ -1,3 +1,6 @@
 /.metadata/
 
 *.class
+*.bin
+*._trace
+
