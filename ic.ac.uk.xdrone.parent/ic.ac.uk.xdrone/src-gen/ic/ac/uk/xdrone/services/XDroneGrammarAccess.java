@@ -47,8 +47,7 @@ public class XDroneGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cEnvironmentEnvironmentParserRuleCall_1_0 = (RuleCall)cEnvironmentAssignment_1.eContents().get(0);
 		
 		//Main:
-		//	fly=Fly
-		//	environment=Environment?;
+		//	fly=Fly environment=Environment?;
 		@Override public ParserRule getRule() { return rule; }
 		
 		//fly=Fly environment=Environment?
@@ -83,9 +82,7 @@ public class XDroneGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightCurlyBracketKeyword_5 = (Keyword)cGroup.eContents().get(5);
 		
 		//Fly:
-		//	'fly' '(' ')' '{' (takeoff+=Takeoff commands+=SuperCommand*
-		//	land+=Land)
-		//	'}';
+		//	'fly' '(' ')' '{' (takeoff+=Takeoff commands+=SuperCommand* land+=Land) '}';
 		@Override public ParserRule getRule() { return rule; }
 		
 		//'fly' '(' ')' '{' (takeoff+=Takeoff commands+=SuperCommand* land+=Land) '}'
@@ -145,8 +142,7 @@ public class XDroneGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightCurlyBracketKeyword_6 = (Keyword)cGroup.eContents().get(6);
 		
 		//Environment:
-		//	{Environment} 'environment' '(' ')' '{' (drone+=Drone | walls+=Walls | objects+=Object)*
-		//	'}';
+		//	{Environment} 'environment' '(' ')' '{' (drone+=Drone | walls+=Walls | objects+=Object)* '}';
 		@Override public ParserRule getRule() { return rule; }
 		
 		//{Environment} 'environment' '(' ')' '{' (drone+=Drone | walls+=Walls | objects+=Object)* '}'
@@ -263,16 +259,7 @@ public class XDroneGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cGoToParserRuleCall_9 = (RuleCall)cAlternatives.eContents().get(9);
 		
 		//Command:
-		//	Up
-		//	| Down
-		//	| Left
-		//	| Right
-		//	| Forward
-		//	| Backward
-		//	| RotateL
-		//	| RotateR
-		//	| Wait
-		//	| GoTo;
+		//	Up | Down | Left | Right | Forward | Backward | RotateL | RotateR | Wait | GoTo;
 		@Override public ParserRule getRule() { return rule; }
 		
 		//Up | Down | Left | Right | Forward | Backward | RotateL | RotateR | Wait | GoTo
@@ -317,8 +304,7 @@ public class XDroneGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cPOSITIVE_DOUBLEParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
 		
 		//DOUBLE:
-		//	'-' POSITIVE_DOUBLE
-		//	| POSITIVE_DOUBLE;
+		//	'-' POSITIVE_DOUBLE | POSITIVE_DOUBLE;
 		@Override public ParserRule getRule() { return rule; }
 		
 		//'-' POSITIVE_DOUBLE | POSITIVE_DOUBLE
@@ -346,8 +332,7 @@ public class XDroneGrammarAccess extends AbstractGrammarElementFinder {
 		private final RuleCall cINTTerminalRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
 		
 		//POSITIVE_DOUBLE:
-		//	INT '.' INT
-		//	| INT;
+		//	INT '.' INT | INT;
 		@Override public ParserRule getRule() { return rule; }
 		
 		//INT '.' INT | INT
@@ -695,8 +680,7 @@ public class XDroneGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightCurlyBracketKeyword_4 = (Keyword)cGroup.eContents().get(4);
 		
 		//Drone:
-		//	'DRONE' '=' '{' (position=Position | 'rotation' '=' rotation=DOUBLE)*
-		//	'}';
+		//	'DRONE' '=' '{' (position=Position | 'rotation' '=' rotation=DOUBLE)* '}';
 		@Override public ParserRule getRule() { return rule; }
 		
 		//'DRONE' '=' '{' (position=Position | 'rotation' '=' rotation=DOUBLE)* '}'
@@ -755,8 +739,7 @@ public class XDroneGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightCurlyBracketKeyword_4 = (Keyword)cGroup.eContents().get(4);
 		
 		//Object:
-		//	object_name=ID '=' '{' (origin=Origin | size=Size | color=Color)*
-		//	'}';
+		//	object_name=ID '=' '{' (origin=Origin | size=Size | color=Color)* '}';
 		@Override public ParserRule getRule() { return rule; }
 		
 		//object_name=ID '=' '{' (origin=Origin | size=Size | color=Color)* '}'
@@ -977,8 +960,7 @@ public class XDroneGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightCurlyBracketKeyword_4 = (Keyword)cGroup.eContents().get(4);
 		
 		//Walls:
-		//	'WALLS' '=' '{' (front=FrontWall | right=RightWall | back=BackWall | left=LeftWall | up=UpWall)*
-		//	'}';
+		//	'WALLS' '=' '{' (front=FrontWall | right=RightWall | back=BackWall | left=LeftWall | up=UpWall)* '}';
 		@Override public ParserRule getRule() { return rule; }
 		
 		//'WALLS' '=' '{' (front=FrontWall | right=RightWall | back=BackWall | left=LeftWall | up=UpWall)* '}'
@@ -1282,8 +1264,7 @@ public class XDroneGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//Main:
-	//	fly=Fly
-	//	environment=Environment?;
+	//	fly=Fly environment=Environment?;
 	public MainElements getMainAccess() {
 		return pMain;
 	}
@@ -1293,9 +1274,7 @@ public class XDroneGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//Fly:
-	//	'fly' '(' ')' '{' (takeoff+=Takeoff commands+=SuperCommand*
-	//	land+=Land)
-	//	'}';
+	//	'fly' '(' ')' '{' (takeoff+=Takeoff commands+=SuperCommand* land+=Land) '}';
 	public FlyElements getFlyAccess() {
 		return pFly;
 	}
@@ -1305,8 +1284,7 @@ public class XDroneGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//Environment:
-	//	{Environment} 'environment' '(' ')' '{' (drone+=Drone | walls+=Walls | objects+=Object)*
-	//	'}';
+	//	{Environment} 'environment' '(' ')' '{' (drone+=Drone | walls+=Walls | objects+=Object)* '}';
 	public EnvironmentElements getEnvironmentAccess() {
 		return pEnvironment;
 	}
@@ -1346,16 +1324,7 @@ public class XDroneGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//Command:
-	//	Up
-	//	| Down
-	//	| Left
-	//	| Right
-	//	| Forward
-	//	| Backward
-	//	| RotateL
-	//	| RotateR
-	//	| Wait
-	//	| GoTo;
+	//	Up | Down | Left | Right | Forward | Backward | RotateL | RotateR | Wait | GoTo;
 	public CommandElements getCommandAccess() {
 		return pCommand;
 	}
@@ -1365,8 +1334,7 @@ public class XDroneGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//DOUBLE:
-	//	'-' POSITIVE_DOUBLE
-	//	| POSITIVE_DOUBLE;
+	//	'-' POSITIVE_DOUBLE | POSITIVE_DOUBLE;
 	public DOUBLEElements getDOUBLEAccess() {
 		return pDOUBLE;
 	}
@@ -1376,8 +1344,7 @@ public class XDroneGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//POSITIVE_DOUBLE:
-	//	INT '.' INT
-	//	| INT;
+	//	INT '.' INT | INT;
 	public POSITIVE_DOUBLEElements getPOSITIVE_DOUBLEAccess() {
 		return pPOSITIVE_DOUBLE;
 	}
@@ -1487,8 +1454,7 @@ public class XDroneGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//Drone:
-	//	'DRONE' '=' '{' (position=Position | 'rotation' '=' rotation=DOUBLE)*
-	//	'}';
+	//	'DRONE' '=' '{' (position=Position | 'rotation' '=' rotation=DOUBLE)* '}';
 	public DroneElements getDroneAccess() {
 		return pDrone;
 	}
@@ -1498,8 +1464,7 @@ public class XDroneGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//Object:
-	//	object_name=ID '=' '{' (origin=Origin | size=Size | color=Color)*
-	//	'}';
+	//	object_name=ID '=' '{' (origin=Origin | size=Size | color=Color)* '}';
 	public ObjectElements getObjectAccess() {
 		return pObject;
 	}
@@ -1559,8 +1524,7 @@ public class XDroneGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//Walls:
-	//	'WALLS' '=' '{' (front=FrontWall | right=RightWall | back=BackWall | left=LeftWall | up=UpWall)*
-	//	'}';
+	//	'WALLS' '=' '{' (front=FrontWall | right=RightWall | back=BackWall | left=LeftWall | up=UpWall)* '}';
 	public WallsElements getWallsAccess() {
 		return pWalls;
 	}

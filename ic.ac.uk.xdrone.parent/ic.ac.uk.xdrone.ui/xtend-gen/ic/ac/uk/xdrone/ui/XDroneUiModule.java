@@ -4,16 +4,10 @@
 package ic.ac.uk.xdrone.ui;
 
 import ic.ac.uk.xdrone.ui.AbstractXDroneUiModule;
-import org.eclipse.ui.plugin.AbstractUIPlugin;
-import org.eclipse.xtend.lib.annotations.FinalFieldsConstructor;
 
 /**
  * Use this class to register components to be used within the Eclipse IDE.
  */
-@FinalFieldsConstructor
-@SuppressWarnings("all")
+/* @FinalFieldsConstructor */@SuppressWarnings("all")
 public class XDroneUiModule extends AbstractXDroneUiModule {
-  public XDroneUiModule(final AbstractUIPlugin plugin) {
-    super(plugin);
-  }
 }

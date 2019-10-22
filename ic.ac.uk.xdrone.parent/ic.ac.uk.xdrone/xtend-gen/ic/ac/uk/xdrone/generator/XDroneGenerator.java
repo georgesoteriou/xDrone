@@ -1613,15 +1613,15 @@ public class XDroneGenerator extends AbstractGenerator {
       }
     }
     try {
-      File file = new File((((localJS + "/simulator") + Long.valueOf(time)) + ".js"));
-      file.getParentFile().mkdirs();
-      PrintWriter writer = new PrintWriter(file, "UTF-8");
-      writer.println(result);
-      writer.close();
-    } catch (final Throwable _t) {
-      if (_t instanceof IOException) {
+      File file_1 = new File((((localJS + "/simulator") + Long.valueOf(time)) + ".js"));
+      file_1.getParentFile().mkdirs();
+      PrintWriter writer_1 = new PrintWriter(file_1, "UTF-8");
+      writer_1.println(result);
+      writer_1.close();
+    } catch (final Throwable _t_1) {
+      if (_t_1 instanceof IOException) {
       } else {
-        throw Exceptions.sneakyThrow(_t);
+        throw Exceptions.sneakyThrow(_t_1);
       }
     }
     result = "";
@@ -1633,15 +1633,15 @@ public class XDroneGenerator extends AbstractGenerator {
       }
     }
     try {
-      File file = new File((((localJS + "/environment") + Long.valueOf(time)) + ".js"));
-      file.getParentFile().mkdirs();
-      PrintWriter writer = new PrintWriter(file, "UTF-8");
-      writer.println(result);
-      writer.close();
-    } catch (final Throwable _t) {
-      if (_t instanceof IOException) {
+      File file_2 = new File((((localJS + "/environment") + Long.valueOf(time)) + ".js"));
+      file_2.getParentFile().mkdirs();
+      PrintWriter writer_2 = new PrintWriter(file_2, "UTF-8");
+      writer_2.println(result);
+      writer_2.close();
+    } catch (final Throwable _t_2) {
+      if (_t_2 instanceof IOException) {
       } else {
-        throw Exceptions.sneakyThrow(_t);
+        throw Exceptions.sneakyThrow(_t_2);
       }
     }
   }

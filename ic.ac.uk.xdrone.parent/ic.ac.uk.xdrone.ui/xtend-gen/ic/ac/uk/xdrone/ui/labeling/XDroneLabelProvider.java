@@ -3,19 +3,16 @@
  */
 package ic.ac.uk.xdrone.ui.labeling;
 
-import com.google.inject.Inject;
-import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
-import org.eclipse.xtext.ui.label.DefaultEObjectLabelProvider;
-
 /**
  * Provides labels for EObjects.
  * 
  * See https://www.eclipse.org/Xtext/documentation/304_ide_concepts.html#label-provider
  */
 @SuppressWarnings("all")
-public class XDroneLabelProvider extends DefaultEObjectLabelProvider {
-  @Inject
-  public XDroneLabelProvider(final AdapterFactoryLabelProvider delegate) {
-    super(delegate);
+public class XDroneLabelProvider /* implements DefaultEObjectLabelProvider  */{
+  /* @Inject
+   */public XDroneLabelProvider(final /* AdapterFactoryLabelProvider */Object delegate) {
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe method super(AdapterFactoryLabelProvider) is undefined");
   }
 }
