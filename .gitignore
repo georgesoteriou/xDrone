@@ -4,3 +4,9 @@
 *.bin
 *._trace
 
+*.gradle
+*/build/
+*/bin/
+
+*/xtend-gen/
+*/src-gen/
