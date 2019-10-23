@@ -5,8 +5,8 @@
 *._trace
 
 *.gradle
-*/build/
-*/bin/
+build/
+bin/
 
-*/xtend-gen/
-*/src-gen/
+xtend-gen/
+src-gen/
