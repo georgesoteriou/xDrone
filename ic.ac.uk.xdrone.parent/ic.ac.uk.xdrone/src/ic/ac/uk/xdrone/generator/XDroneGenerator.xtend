@@ -249,13 +249,9 @@ commands.push({z: -«cmd.distance»});
 	def compilePython(Main main)'''
 		#! /usr/bin/env python
 		import sys
-		sys.path.append('/opt/ros/indigo/lib/python2.7/dist-packages')
-		import rospy
 		import math  
+		from pyparrot.Minidrone import Mambo
 		
-		from std_msgs.msg import Empty
-		from ardrone_autonomy.msg import Navdata	
-		from geometry_msgs.msg import Twist	
 		PI = 3.1415926535897
 		#Constants
 		ACCEPTED_DISTANCE_ERROR = 20 # 20 cm
@@ -264,13 +260,11 @@ commands.push({z: -«cmd.distance»});
 		DISTANCE_ONE_AND_HALF_SECOND = 1.25
 		DISTANCE_TWO_SECONDS = 2.20
 		
-		state = -1
 		dronePosition = {
 			'x': 0,
 			'y': 0,
 			'z': 0
 		}
-		currentAngle = 0.0 #Navdata
 		currentDroneAngle = 270.0 #Real Life
 		
 		#maps drone's position
@@ -307,16 +301,6 @@ commands.push({z: -«cmd.distance»});
 		#RotY:		RotX:
 		#+ forward 	+ right
 		#- backwards	- left
-		
-		#Tracks data provide by the drone
-		def ReceiveNavdata(data):
-			global state
-			global currentAngle
-			global currentAltitude
-			
-			currentAngle = data.rotZ
-			state = data.state
-			currentAltitude = data.altd
 		
 		#Returns time that drone should fly to reach travel given distance
 		def getTimeFromDistance(distance):
@@ -380,163 +364,25 @@ commands.push({z: -«cmd.distance»});
 		def angleTo360(angle):
 		  while angle < 0:
 		    angle = 360 + angle
-		  return angle
-		
-		
-		def checkAngle(angle):
-		  angle = angle%360
-		  while angle < 0:
-		    angle = 360 + angle;
-		  return angle
-		
+		  return angle		
 			
 		def oppositeSigns(x, y): 
 			return (x < 0) if (y >= 0) else (y < 0)
+
+		mamboAddr = "e0:14:55:b4:3d:a9"
+
+		drone = Mambo(mamboAddr)
+
+		print("Attempting connection...")
+		success = drone.connect(num_retries=3)
 		
-		#Rotates the drone
-		def rotate(speed, angle):
-			global currentAngle
-			global ACCEPTED_ROTATION_ERROR
-			lastAngle = currentAngle
-			angleDone = 0.0
-			
-			vel_msg = Twist()
-		
-			angular_speed = speed*PI/360
-		
-			clockwise = False
-			if angle < 0:
-				clockwise = True
-		
-			vel_msg.linear.x=0
-			vel_msg.linear.y=0
-			vel_msg.linear.z=0
-			vel_msg.angular.x = 0
-			vel_msg.angular.y = 0
-		
-			if clockwise:
-				vel_msg.angular.z = -angular_speed
-			else:
-				vel_msg.angular.z = angular_speed*2 #For some reason rotates slower to left
-		
-			while velocity_publisher.get_num_connections() < 1:
-				rospy.sleep(0.1)
-		
-			while(angleDone < abs(angle)-ACCEPTED_ROTATION_ERROR):
-				if oppositeSigns(lastAngle, currentAngle) and abs(currentAngle > 90):
-					angleDone += abs(abs(currentAngle)-180 + (abs(lastAngle)-180))
-					
-				else:
-					angleDone += abs(currentAngle - lastAngle)
-		
-				lastAngle = currentAngle	
-				velocity_publisher.publish(vel_msg)
-		
-		
-			vel_msg.angular.z = 0
-			velocity_publisher.publish(vel_msg)
-		
-		#Moves the drone by given distance. x and y are speeds in eeach direction. 
-		#Set one of the to zero if wants to move drone just in one direction at a time
-		def moveBaseOnTime(distance, x ,y):
-			global velocity_publisher
-		
-			while velocity_publisher.get_num_connections() < 1:
-				rospy.sleep(0.1)
-		
-			vel_msg = Twist()
-			vel_msg.linear.x= x if distance > 0 else -x
-			vel_msg.linear.y= y if distance > 0 else -y  #y+ is left
-			vel_msg.linear.z=0
-			vel_msg.angular.x = 0
-			vel_msg.angular.y = 0
-			vel_msg.angular.z = 0
-			
-			tStart = rospy.Time.now().to_sec()
-			tEnd = tStart;
-		  	timeRequired = getTimeFromDistance(abs(distance))
-		  
-			while(tEnd-tStart) < timeRequired:
-				velocity_publisher.publish(vel_msg)
-				tEnd = rospy.Time.now().to_sec()	
-		
-			vel_msg.linear.x=0
-			vel_msg.linear.y=0
-			velocity_publisher.publish(vel_msg)
-			
-		#Vertical movement
-		def moveUpAndDown(distance):
-			global zLocation
-			global velocity_publisher
-		
-			vel_msg = Twist()
-			vel_msg.linear.x=0
-			vel_msg.linear.y=0
-			vel_msg.angular.x = 0
-			vel_msg.angular.y = 0
-			vel_msg.angular.z = 0
-			goalDistance = currentAltitude + (distance*1000)
-			
-			while abs(abs(currentAltitude) - abs(goalDistance)) > ACCEPTED_ALTITUDE_ERROR:
-				if(goalDistance > currentAltitude):
-					vel_msg.linear.z=0.15
-				else:
-					vel_msg.linear.z=-0.15
-				print(currentAltitude, goalDistance)
-				velocity_publisher.publish(vel_msg)
-		
-			vel_msg.linear.z=0
-			velocity_publisher.publish(vel_msg)
-		
-		#Hover mode- no movement
-		def noMove(timeRequired):
-			global velocity_publisher
-		
-			while velocity_publisher.get_num_connections() < 1:
-				rospy.sleep(0.1)
-		
-			vel_msg = Twist()
-			vel_msg.linear.x=0
-			vel_msg.linear.y=0
-			vel_msg.linear.z=0
-			vel_msg.angular.x = 0
-			vel_msg.angular.y = 0
-			vel_msg.angular.z = 0
-			
-			tStart = rospy.Time.now().to_sec()
-			tEnd = tStart;
-		
-			while(tEnd-tStart) < timeRequired:
-				velocity_publisher.publish(vel_msg)
-				tEnd = rospy.Time.now().to_sec()
-				
-		#Main
-		rospy.init_node('test_node')
-		empty = Empty()
-		rospy.Subscriber('/ardrone/navdata', Navdata, ReceiveNavdata)
-		velocity_publisher = rospy.Publisher('/cmd_vel', Twist, queue_size=1)
-		
-		while state == -1:
-			rospy.sleep(0.1)
-		
-		if state == 0:
-			reset = rospy.Publisher('/ardrone/reset', Empty, queue_size=1)
-			while reset.get_num_connections() < 1:
-				rospy.sleep(0.1)
-			reset.publish(empty)
-		
-		while state == 0:
-			rospy.sleep(0.1)
-		
+		if not success:
+			print("Connection failed :'(")
+			exit()
+
+		#Main	
 		«FOR to : main.fly.takeoff»  
-			takeoff = rospy.Publisher('/ardrone/takeoff', Empty, queue_size=1)
-			
-			while takeoff.get_num_connections() < 1:
-				rospy.sleep(0.1)
-			
-			dronePosition['z'] += 0.7
-			takeoff.publish(empty)
-			noMove(5)
+		drone.safe_takeoff(3)
 		«ENDFOR»
 		
 		«FOR f : main.fly.commands»
@@ -546,69 +392,41 @@ commands.push({z: -«cmd.distance»});
 		«ENDFOR»
 		
 		«FOR to : main.fly.land»  
-			land = rospy.Publisher('/ardrone/land', Empty, queue_size=1)
-						
-			while land.get_num_connections() < 1:
-				rospy.sleep(0.1)
-			
-			land.publish(empty)
-			rospy.sleep(3)
+		drone.safe_land(3)
 		«ENDFOR»
+		drone.disconnect()
 	'''
 	
 	def compile(Command cmd) '''
 		«IF cmd instanceof Up »
-		dronePosition['z'] += «cmd.distance»
-		moveUpAndDown(«cmd.distance»)
+		print("Up unsupported")
 	  	«ENDIF»
 	  	«IF cmd instanceof Down»
-dronePosition['z'] += -«cmd.distance»
-moveUpAndDown(-«cmd.distance»)
+		print("Down unsupported")
 	  	«ENDIF»
 	  	«IF cmd instanceof Left »
-dronePosition['y']  += «cmd.distance»
-moveBaseOnTime(«cmd.distance», 0, 0.25)
-noMove(1.5)
+		drone.fly_direct(-10, 0, 0, 0, «cmd.distance»)
 	  	«ENDIF»
 	  	«IF cmd instanceof Right»
-dronePosition['y']  += -«cmd.distance»
-moveBaseOnTime(-«cmd.distance», 0, 0.25)
-noMove(1.5)
+		drone.fly_direct(10, 0, 0, 0, «cmd.distance»)
 	  	«ENDIF»
-	  	«IF cmd instanceof Forward»	
-dronePosition['x'] += «cmd.distance»
-moveBaseOnTime(«cmd.distance», 0.25, 0)
-noMove(1.5)
+	  	«IF cmd instanceof Forward»
+		drone.fly_direct(0, 10, 0, 0, «cmd.distance»)
 	  	«ENDIF»
-	  	«IF cmd instanceof Backward»	
-dronePosition['x'] += -«cmd.distance»
-moveBaseOnTime(-«cmd.distance», 0.25, 0)
-noMove(1.5)
+	  	«IF cmd instanceof Backward»
+		drone.fly_direct(0, -10, 0, 0, «cmd.distance»)
 	  	«ENDIF»
 	  	«IF cmd instanceof Wait»
-	  		moveBaseOnTime(«cmd.seconds», 0, 0)
+		drone.smart_sleep(«cmd.seconds»)
 	  	«ENDIF» 	
 	  	«IF cmd instanceof RotateL»
-currentDroneAngle += «cmd.angle»
-rotate(90, «cmd.angle»)
-noMove(0.5)
+		drone.turn_degrees(-«cmd.angle»)
 	  	«ENDIF»
 	  	«IF cmd instanceof RotateR»
-currentDroneAngle += -«cmd.angle»
-rotate(90, -«cmd.angle»)
-noMove(0.5)
+		drone.turn_degrees(«cmd.angle»)
 	  	«ENDIF»
 	  	«IF cmd instanceof GoTo»
-		  	vector = getDistanceToObject("«cmd.object_name»");
-		  	angle = getRotationToObject("«cmd.object_name»");
-		  	currentDroneAngle += -angle
-		  	rotate(90, -angle);
-		  	noMove(0.5)
-		  	dronePosition['z'] += vector['z'] + 0.5
-		  	moveUpAndDown(vector['z'] + 0.5)
-		  	dronePosition['x'] += vector['x']
-		  	moveBaseOnTime(vector['x'], 0.25, 0)
-		  	noMove(1.5)
+		print("GoTo unsupported")
 		«ENDIF»
 	'''
 
